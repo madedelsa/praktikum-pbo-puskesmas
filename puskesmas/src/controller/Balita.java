@@ -1,8 +1,8 @@
 package controller;
 
+import config.DatabaseConnection;
 import orang.DataOrang;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
 
 public class Balita extends DataOrang {
 
@@ -10,73 +10,93 @@ public class Balita extends DataOrang {
     private double tinggiBadan;
     private String catatan;
 
-    public Balita(int id, String nama, int usia, double beratBadan, double tinggiBadan, String catatan) {
-        this.id = id;
-        this.nama = nama;
-        this.usia = usia;
-        this.beratBadan = beratBadan;
-        this.tinggiBadan = tinggiBadan;
-        this.catatan = catatan;
-    }
-
-    private List<Balita> balitaList = new ArrayList<>();
-    private int idCounter = 1;
-
     @Override
     public void create() {
-        Balita b = new Balita(idCounter++, "Default Balita", 1, 10.5, 75.0, "Sehat");
-        balitaList.add(b);
-        System.out.println("✅ Data balita ditambahkan: " + b.nama);
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "INSERT INTO balita (nama, usia, berat_badan, tinggi_badan, catatan) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "Default Balita");
+            stmt.setInt(2, 2);
+            stmt.setDouble(3, 10.0);
+            stmt.setDouble(4, 80.0);
+            stmt.setString(5, "Catatan default");
+            stmt.executeUpdate();
+            System.out.println("✅ Data balita ditambahkan.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void create(String nama, int usia, double berat, double tinggi, String catatan) {
-        Balita b = new Balita(idCounter++, nama, usia, berat, tinggi, catatan);
-        balitaList.add(b);
-        System.out.println("✅ Data balita ditambahkan: " + nama);
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "INSERT INTO balita (nama, usia, berat_badan, tinggi_badan, catatan) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nama);
+            stmt.setInt(2, usia);
+            stmt.setDouble(3, berat);
+            stmt.setDouble(4, tinggi);
+            stmt.setString(5, catatan);
+            stmt.executeUpdate();
+            System.out.println("✅ Data balita ditambahkan: " + nama);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void read() {
-        System.out.println("📋 Data Balita:");
-        for (Balita b : balitaList) {
-            System.out.println(b.id + ". " + b.nama + " - " + b.usia + " tahun, Berat: " + b.beratBadan + "kg, Tinggi: " + b.tinggiBadan + "cm, Catatan: " + b.catatan);
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM balita";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.println("📋 Data Balita:");
+            while (rs.next()) {
+                System.out.println(rs.getInt("id") + ". " + rs.getString("nama") + " | usia: " + rs.getInt("usia") +
+                        " tahun | berat: " + rs.getDouble("berat_badan") + " kg | tinggi: " +
+                        rs.getDouble("tinggi_badan") + " cm | catatan: " + rs.getString("catatan"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void update(int id) {
-        for (Balita b : balitaList) {
-            if (b.id == id) {
-                b.nama = "Updated Balita";
-                b.usia = 2;
-                b.beratBadan = 11.0;
-                b.tinggiBadan = 80.0;
-                b.catatan = "Catatan diperbarui";
-                System.out.println("✅ Data balita ID " + id + " diperbarui.");
-                return;
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE balita SET nama=?, usia=?, berat_badan=?, tinggi_badan=?, catatan=? WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "Updated Balita");
+            stmt.setInt(2, 3);
+            stmt.setDouble(3, 12.0);
+            stmt.setDouble(4, 85.0);
+            stmt.setString(5, "Updated catatan");
+            stmt.setInt(6, id);
+            int result = stmt.executeUpdate();
+            if (result > 0) {
+                System.out.println("✅ Data balita diperbarui.");
+            } else {
+                System.out.println("❌ ID tidak ditemukan.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        System.out.println("❌ Balita dengan ID " + id + " tidak ditemukan!");
-    }
-
-    public void update(int id, String nama, int usia, double berat, double tinggi, String catatan) {
-        for (Balita b : balitaList) {
-            if (b.id == id) {
-                b.nama = nama;
-                b.usia = usia;
-                b.beratBadan = berat;
-                b.tinggiBadan = tinggi;
-                b.catatan = catatan;
-                System.out.println("✅ Data balita diperbarui: " + nama);
-                return;
-            }
-        }
-        System.out.println("❌ Balita dengan ID " + id + " tidak ditemukan!");
     }
 
     @Override
     public void delete(int id) {
-        balitaList.removeIf(b -> b.id == id);
-        System.out.println("🗑 Data balita dengan ID " + id + " telah dihapus.");
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "DELETE FROM balita WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            int result = stmt.executeUpdate();
+            if (result > 0) {
+                System.out.println("🗑 Data balita dihapus.");
+            } else {
+                System.out.println("❌ ID tidak ditemukan.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
