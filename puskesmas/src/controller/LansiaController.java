@@ -1,66 +1,95 @@
 package controller;
 
 import config.DatabaseConnection;
+import dao.LansiaDAO;
+import model.Lansia;
 import orang.DataOrang;
 import java.sql.*;
 
-public class Lansia extends DataOrang {
+public class LansiaController extends DataOrang {
+    private final LansiaDAO lansiaDAO;
+
+    public LansiaController() {
+        this.lansiaDAO = new LansiaDAO();
+    }
 
     @Override
     public void create() {
-        // contoh data dummy
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO lansia (nama, usia) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "Default Lansia");
-            stmt.setInt(2, 70);
-            stmt.executeUpdate();
-            System.out.println("✅ Data lansia ditambahkan ke database.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Default values for dummy data
+        Lansia lansia = new Lansia("Default Lansia", 70, 120, 80, 120, "Tidak ada catatan");
+        lansiaDAO.create(lansia);
     }
 
+   
     public void create(String nama, int usia) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO lansia (nama, usia) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nama);
-            stmt.setInt(2, usia);
-            stmt.executeUpdate();
-            System.out.println("✅ Data lansia ditambahkan: " + nama);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Use default values for new fields
+        Lansia lansia = new Lansia(nama, usia, 120, 80, 120, "Tidak ada catatan");
+        lansiaDAO.create(lansia);
+    }
+
+    public void create(String nama, int usia, int gulaDarah, int tdDiastolik, int tdSistolik, String catatan) {
+        Lansia lansia = new Lansia(nama, usia, gulaDarah, tdDiastolik, tdSistolik, catatan);
+        lansiaDAO.create(lansia);
     }
 
     @Override
     public void read() {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "SELECT * FROM lansia";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+        System.out.println("📋 Data Lansia:");
+        for (Lansia lansia : lansiaDAO.read()) {
+            System.out.println(lansia);
+        }
+    }
 
-            System.out.println("📋 Data Lansia:");
-            while (rs.next()) {
-                System.out.println(rs.getInt("id") + ". " + rs.getString("nama") + " - " + rs.getInt("usia") + " tahun");
+    @Override
+    public void update(int id) {
+        // Default values for update
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM lansia WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Lansia lansia = new Lansia(
+                    id,
+                    "Updated Lansia",
+                    99,
+                    rs.getInt("gula_darah"),
+                    rs.getInt("td_diastolik"),
+                    rs.getInt("td_sistolik"),
+                    rs.getString("catatan")
+                );
+                lansiaDAO.update(lansia);
+            } else {
+                System.out.println("❌ ID tidak ditemukan.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void update(int id) {
+    public void update(int id, String nama, int usia, int gulaDarah, int tdDiastolik, int tdSistolik, String catatan) {
+        Lansia lansia = new Lansia(id, nama, usia, gulaDarah, tdDiastolik, tdSistolik, catatan);
+        lansiaDAO.update(lansia);
+    }
+
+   
+    public void update(int id, String nama, int usia) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "UPDATE lansia SET nama=?, usia=? WHERE id=?";
+            String sql = "SELECT * FROM lansia WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "Updated Lansia");
-            stmt.setInt(2, 99);
-            stmt.setInt(3, id);
-            int result = stmt.executeUpdate();
-            if (result > 0) {
-                System.out.println("✅ Data lansia diperbarui.");
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Lansia lansia = new Lansia(
+                    id,
+                    nama,
+                    usia,
+                    rs.getInt("gula_darah"),
+                    rs.getInt("td_diastolik"),
+                    rs.getInt("td_sistolik"),
+                    rs.getString("catatan")
+                );
+                lansiaDAO.update(lansia);
             } else {
                 System.out.println("❌ ID tidak ditemukan.");
             }
@@ -71,18 +100,6 @@ public class Lansia extends DataOrang {
 
     @Override
     public void delete(int id) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "DELETE FROM lansia WHERE id=?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            int result = stmt.executeUpdate();
-            if (result > 0) {
-                System.out.println("🗑 Data lansia dihapus.");
-            } else {
-                System.out.println("❌ ID tidak ditemukan.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        lansiaDAO.delete(id);
     }
 }
