@@ -7,7 +7,7 @@ import orang.DataOrang;
 import java.sql.*;
 
 public class LansiaController extends DataOrang {
-    private final LansiaDAO lansiaDAO;
+    public final LansiaDAO lansiaDAO;
 
     public LansiaController() {
         this.lansiaDAO = new LansiaDAO();

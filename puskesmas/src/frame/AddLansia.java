@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package main;
+package frame;
 
 /**
  *
  * @author hp
  */
-public class UpdateLansia extends javax.swing.JFrame {
+public class AddLansia extends javax.swing.JFrame {
 
     /**
-     * Creates new form UpdateLansia
+     * Creates new form EditLansia
      */
-    public UpdateLansia() {
+    public AddLansia() {
         initComponents();
     }
 
@@ -26,6 +26,8 @@ public class UpdateLansia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
+        jOptionPane2 = new javax.swing.JOptionPane();
         jPanel1 = new javax.swing.JPanel();
         jTextNama = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -58,7 +60,7 @@ public class UpdateLansia extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(45, 51, 107));
-        jLabel1.setText("Update Data Lansia");
+        jLabel1.setText("Tambah Data Lansia");
 
         jLabel3.setFont(new java.awt.Font("Palatino Linotype", 1, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(45, 51, 107));
@@ -111,7 +113,7 @@ public class UpdateLansia extends javax.swing.JFrame {
         });
 
         jButton1.setFont(new java.awt.Font("Modern No. 20", 0, 18)); // NOI18N
-        jButton1.setText("Update");
+        jButton1.setText("Tambah");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -250,20 +252,21 @@ public class UpdateLansia extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UpdateLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UpdateLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UpdateLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UpdateLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddLansia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UpdateLansia().setVisible(true);
+                new AddLansia().setVisible(true);
             }
         });
     }
@@ -277,6 +280,8 @@ public class UpdateLansia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JOptionPane jOptionPane1;
+    private javax.swing.JOptionPane jOptionPane2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextCatatan;
     private javax.swing.JTextField jTextGulaDarah;
