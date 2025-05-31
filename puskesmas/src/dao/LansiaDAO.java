@@ -10,7 +10,7 @@ public class LansiaDAO {
 
     public void create(Lansia lansia) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO lansia (nama, usia, gula_darah, td_diastolik, td_sistolik, catatan) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO catatan_lansia (nama, usia, gula_darah, td_diastolik, td_sistolik, catatan) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, lansia.getNama());
             stmt.setInt(2, lansia.getUsia());
@@ -28,7 +28,7 @@ public class LansiaDAO {
     public List<Lansia> read() {
         List<Lansia> lansiaList = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "SELECT * FROM lansia";
+            String sql = "SELECT * FROM catatan_lansia";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -51,7 +51,7 @@ public class LansiaDAO {
 
     public void update(Lansia lansia) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "UPDATE lansia SET nama=?, usia=?, gula_darah=?, td_diastolik=?, td_sistolik=?, catatan=? WHERE id=?";
+            String sql = "UPDATE catatan_lansia SET nama=?, usia=?, gula_darah=?, td_diastolik=?, td_sistolik=?, catatan=? WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, lansia.getNama());
             stmt.setInt(2, lansia.getUsia());
@@ -73,7 +73,7 @@ public class LansiaDAO {
 
     public void delete(int id) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "DELETE FROM lansia WHERE id=?";
+            String sql = "DELETE FROM catatan_lansia WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             int result = stmt.executeUpdate();

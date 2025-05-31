@@ -19,6 +19,12 @@ public class TableLansia extends javax.swing.JFrame {
 
     LansiaController controller = new LansiaController();
     private int selectedId = -1;
+    private String selectedNama;
+    private int selectedUsia;
+    private int selectedGulaDarah;
+    private int selectedTDDiastolik;
+    private int selectedTDSistolik;
+    private String selectedCatatan;
     
     public TableLansia() {
         initComponents();
@@ -91,7 +97,7 @@ public class TableLansia extends javax.swing.JFrame {
         });
 
         jButtonDelete.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        jButtonDelete.setText("Tambah");
+        jButtonDelete.setText("Delete");
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteActionPerformed(evt);
@@ -116,10 +122,9 @@ public class TableLansia extends javax.swing.JFrame {
                                 .addComponent(jButtonTambah))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
-                                .addComponent(jButtonUpdate))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jButtonDelete))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonUpdate)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(385, 385, 385)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -159,57 +164,108 @@ public class TableLansia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void loadTable() {
+    protected void loadTable() {
         DefaultTableModel model = new DefaultTableModel(
-            new String[]{"id", "Nama", "Usia", "Gula Darah", "TD Diastolik", "TD Sistolik", "Catatan"}, 0);
-        List<model.Lansia> lansiaList = controller.lansiaDAO.read(); // Uses controller to get model.Lansia list
-        for (model.Lansia lansia : lansiaList) {
-            Object[] row = {
-                lansia.getId(),
-                lansia.getNama(),
-                lansia.getUsia(),
-                lansia.getGulaDarah(),
-                lansia.getTdDiastolik(),
-                lansia.getTdSistolik(),
-                lansia.getCatatan()
-            };
-            model.addRow(row);
+            new String[]{"id", "nama", "usia", "gula_darah", "td_Diastolik", "td_Sistolik", "catatan"}, 0);
+        try {
+            List<model.Lansia> lansiaList = controller.lansiaDAO.read();
+            for (model.Lansia lansia : lansiaList) {
+                Object[] row = {
+                    lansia.getId(),
+                    lansia.getNama(),
+                    lansia.getUsia(),
+                    lansia.getGulaDarah(),
+                    lansia.getTdDiastolik(),
+                    lansia.getTdSistolik(),
+                    lansia.getCatatan()
+                };
+                model.addRow(row);
+            }
+            jTable1.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengambil data dari database: " + e.getMessage());
+            e.printStackTrace(); // Log the error
         }
-        jTable1.setModel(model);
     }
     
     private void jButtonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahActionPerformed
         // TODO add your handling code here:
-//        new AddLansia(this, LansiaController, null).setVisible(true);
+        try {
+            AddLansia addFrame = new AddLansia(this); // Pass 'this' as TableLansia instance
+            addFrame.setVisible(true);
+            this.dispose(); // Optional: Close TableLansia
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal membuka form Tambah: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonTambahActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
         // TODO add your handling code here:
+        try {
+            if (selectedId != -1) {
+                UpdateLansia updateFrame = new UpdateLansia(this); // Pass 'this'
+                updateFrame.setData(selectedId, selectedNama, selectedUsia, selectedGulaDarah, selectedTDDiastolik, selectedTDSistolik, selectedCatatan);
+                updateFrame.setVisible(true);
+                this.dispose(); // Optional: Close TableLansia
+            } else {
+                JOptionPane.showMessageDialog(this, "Pilih data yang ingin diupdate!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal membuka form Update: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
         // TODO add your handling code here:
+         try {
+            if (selectedId != -1) {
+                int confirm = JOptionPane.showConfirmDialog(this, "Yakin ingin menghapus data ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    controller.delete(selectedId);
+                    JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+                    loadTable(); // Refresh the table
+                    clearSelectedData(); // Clear selected data
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-        int row = jTable1.getSelectedRow();
-        if (row >= 0) {
-            // Retrieve values from all columns (though we only need id for now)
-            selectedId = (int) jTable1.getValueAt(row, 0); // Store the ID
-            // Optionally log or use other columns if needed
-            String nama = (String) jTable1.getValueAt(row, 1);
-            int usia = (int) jTable1.getValueAt(row, 2);
-            int gulaDarah = (int) jTable1.getValueAt(row, 3);
-            int tdDiastolik = (int) jTable1.getValueAt(row, 4);
-            int tdSistolik = (int) jTable1.getValueAt(row, 5);
-            String catatan = (String) jTable1.getValueAt(row, 6);
-            // Note: Direct casting to int assumes the data is already integers; adjust if needed (e.g., parse from String)
-        } else {
-            selectedId = -1; // Reset if no valid row is selected
+        try {
+            int row = jTable1.getSelectedRow();
+            if (row >= 0) {
+                selectedId = (int) jTable1.getValueAt(row, 0);
+                selectedNama = (String) jTable1.getValueAt(row, 1);
+                selectedUsia = (int) jTable1.getValueAt(row, 2);
+                selectedGulaDarah = (int) jTable1.getValueAt(row, 3);
+                selectedTDDiastolik = (int) jTable1.getValueAt(row, 4);
+                selectedTDSistolik = (int) jTable1.getValueAt(row, 5);
+                selectedCatatan = (String) jTable1.getValueAt(row, 6);
+            } else {
+                clearSelectedData();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengambil data dari tabel: " + e.getMessage());
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void clearSelectedData() {
+    selectedId = -1;
+    selectedNama = "";
+    selectedUsia = 0;
+    selectedGulaDarah = 0;
+    selectedTDDiastolik = 0;
+    selectedTDSistolik = 0;
+    selectedCatatan = "";
+}
 
     
     public static void main(String args[]) {

@@ -4,6 +4,8 @@
  */
 package frame;
 
+import controller.LansiaController;
+import javax.swing.JOptionPane;
 /**
  *
  * @author hp
@@ -13,7 +15,14 @@ public class UpdateLansia extends javax.swing.JFrame {
     /**
      * Creates new form UpdateLansia
      */
-    public UpdateLansia() {
+    private int lansiaId;
+    private TableLansia tableLansia;
+    LansiaController controller = new LansiaController();
+    public UpdateLansia(TableLansia tableLansia) {
+        initComponents();
+         this.tableLansia = tableLansia;
+    }
+     public UpdateLansia() { // Default constructor
         initComponents();
     }
 
@@ -234,6 +243,39 @@ public class UpdateLansia extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String nama = jTextNama.getText();
+        String usiaText = jTextUsia.getText();
+        String gulaDarahText = jTextGulaDarah.getText();
+        String tdDiastolikText = jTextTDDiastolik.getText();
+        String tdSistolikText = jTextTDSistolik.getText();
+        String catatan = jTextCatatan.getText();
+
+        // Basic input validation (add more robust validation as needed)
+        if (nama.isEmpty() || usiaText.isEmpty() || gulaDarahText.isEmpty() || tdDiastolikText.isEmpty() || tdSistolikText.isEmpty() || catatan.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi!");
+            return;
+        }
+
+        try {
+            int usia = Integer.parseInt(usiaText);
+            int gulaDarah = Integer.parseInt(gulaDarahText);
+            int tdDiastolik = Integer.parseInt(tdDiastolikText);
+            int tdSistolik = Integer.parseInt(tdSistolikText);
+
+            controller.update(lansiaId, nama, usia, gulaDarah, tdDiastolik, tdSistolik, catatan);
+            JOptionPane.showMessageDialog(this, "Data berhasil diupdate!");
+
+            if (tableLansia != null) {
+                tableLansia.loadTable(); // Refresh the table
+                tableLansia.setVisible(true); // Show TableLansia again
+            } else {
+                TableLansia newTableFrame = new TableLansia();
+                newTableFrame.setVisible(true);
+            }
+            this.dispose(); // Close UpdateLansia
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Input usia, gula darah, tekanan darah harus berupa angka!");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -289,4 +331,14 @@ public class UpdateLansia extends javax.swing.JFrame {
     private javax.swing.JTextField jTextTDSistolik;
     private javax.swing.JTextField jTextUsia;
     // End of variables declaration//GEN-END:variables
+
+    public void setData(int id, String nama, int usia, int gulaDarah, int tdDiastolik, int tdSistolik, String catatan) {
+    lansiaId = id;
+    jTextNama.setText(nama);
+    jTextUsia.setText(String.valueOf(usia)); // Convert int to String
+    jTextGulaDarah.setText(String.valueOf(gulaDarah));
+    jTextTDDiastolik.setText(String.valueOf(tdDiastolik));
+    jTextTDSistolik.setText(String.valueOf(tdSistolik));
+    jTextCatatan.setText(catatan);
+    }
 }

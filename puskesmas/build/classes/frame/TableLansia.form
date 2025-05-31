@@ -57,13 +57,12 @@
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="jButtonTambah" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jButtonUpdate" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="jButtonDelete" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jButtonDelete" alignment="1" min="-2" pref="81" max="-2" attributes="0"/>
+                                      <Component id="jButtonUpdate" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -221,7 +220,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Microsoft JhengHei" size="14" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Tambah"/>
+            <Property name="text" type="java.lang.String" value="Delete"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteActionPerformed"/>

@@ -44,7 +44,7 @@ public class LansiaController extends DataOrang {
     public void update(int id) {
         // Default values for update
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "SELECT * FROM lansia WHERE id=?";
+            String sql = "SELECT * FROM catatan_lansia WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -75,7 +75,7 @@ public class LansiaController extends DataOrang {
    
     public void update(int id, String nama, int usia) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "SELECT * FROM lansia WHERE id=?";
+            String sql = "SELECT * FROM catatan_lansia WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
