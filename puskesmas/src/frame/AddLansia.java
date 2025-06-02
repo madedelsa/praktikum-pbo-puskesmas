@@ -1,20 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frame;
-
-import controller.LansiaController; // Import controller
+import controller.LansiaController;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author hp
- */
 public class AddLansia extends javax.swing.JFrame {
-
     private LansiaController controller = new LansiaController(); // Buat objek controller
-
     private TableLansia tableLansia;
 
     public AddLansia(TableLansia tableLansia) {

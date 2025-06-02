@@ -5,42 +5,27 @@ import orang.DataOrang;
 import java.sql.*;
 import dao.BalitaDAO;
 import model.Balita;
-
 public class BalitaController extends DataOrang {
-
-    private int beratBadan;
-    private int tinggiBadan;
-    private String catatan;
     public final BalitaDAO balitaDAO;
+    
     public BalitaController() {
         this.balitaDAO = new BalitaDAO();
     }
 
-    
+    @Override
     public void create() {
         Balita balita = new Balita("Default Balita", 5, 100, 20, "Tidak ada catatan");
         balitaDAO.create(balita);
     }
 
-    public void create(String nama, int usia, int berat, int tinggi, String catatan) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO catatan_balita (nama, usia, berat_badan, tinggi_badan, catatan) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nama);
-            stmt.setInt(2, usia);
-            stmt.setInt(3, berat);
-            stmt.setInt(4, tinggi);
-            stmt.setString(5, catatan);
-            stmt.executeUpdate();
-            System.out.println("✅ Data balita ditambahkan: " + nama);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void create(String nama, int usia, int beratBadan, int tinggiBadan, String catatan) {
+    Balita balita = new Balita(nama, usia, beratBadan, tinggiBadan, catatan);
+    balitaDAO.create(balita);
     }
 
     @Override
     public void read() {
-        System.out.println("📋 Data Lansia:");
+        System.out.println("📋 Data Balita:");
         for (Balita balita : balitaDAO.read()) {
             System.out.println(balita);
         }

@@ -217,7 +217,7 @@
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Modern No. 20" size="18" style="0"/>
+              <Font name="Palatino Linotype" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Update"/>
           </Properties>

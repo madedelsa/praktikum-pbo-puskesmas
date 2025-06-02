@@ -14,11 +14,10 @@ public class BalitaDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, balita.getNama());
             stmt.setInt(2, balita.getUsia());
-            stmt.setInt(3, balita.getBeratBadan()); // Sudah benar jika di DB INT
-            stmt.setInt(4, balita.getTinggiBadan()); // Sudah benar jika di DB INT
+            stmt.setInt(3, balita.getBeratBadan());
+            stmt.setInt(4, balita.getTinggiBadan());
             stmt.setString(5, balita.getCatatan());
             stmt.executeUpdate();
-            System.out.println("✅ Data balita ditambahkan: " + balita.getNama());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,8 +34,8 @@ public class BalitaDAO {
                     rs.getInt("id"),
                     rs.getString("nama"),
                     rs.getInt("usia"),
-                    rs.getInt("berat_badan"), // <-- UBAH KE INT
-                    rs.getInt("tinggi_badan"), // <-- UBAH KE INT
+                    rs.getInt("berat_badan"),
+                    rs.getInt("tinggi_badan"),
                     rs.getString("catatan")
                 );
                 balitaList.add(balita);

@@ -15,11 +15,9 @@ public class LansiaController extends DataOrang {
 
     @Override
     public void create() {
-        // Default values for dummy data
         Lansia lansia = new Lansia("Default Lansia", 70, 120, 80, 120, "Tidak ada catatan");
         lansiaDAO.create(lansia);
     }
-
    
     public void create(String nama, int usia) {
         // Use default values for new fields

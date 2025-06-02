@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package frame;
 
-/**
- *
- * @author hp
- */
 import controller.LansiaController;
 import model.Lansia;
 import javax.swing.*;
@@ -16,7 +8,6 @@ import java.awt.*;
 import java.util.List;
 
 public class TableLansia extends javax.swing.JFrame {
-
     LansiaController controller = new LansiaController();
     private int selectedId = -1;
     private String selectedNama;
@@ -48,6 +39,7 @@ public class TableLansia extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
+        jButtonKeluar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,7 +81,7 @@ public class TableLansia extends javax.swing.JFrame {
         jLabel2.setText("Aksi");
 
         jButtonUpdate.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        jButtonUpdate.setText("Update");
+        jButtonUpdate.setText("Ubah");
         jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonUpdateActionPerformed(evt);
@@ -97,10 +89,18 @@ public class TableLansia extends javax.swing.JFrame {
         });
 
         jButtonDelete.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        jButtonDelete.setText("Delete");
+        jButtonDelete.setText("Hapus");
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteActionPerformed(evt);
+            }
+        });
+
+        jButtonKeluar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        jButtonKeluar.setText("Keluar");
+        jButtonKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonKeluarActionPerformed(evt);
             }
         });
 
@@ -113,18 +113,19 @@ public class TableLansia extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
-                                .addComponent(jButtonTambah))
+                                .addComponent(jButtonTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonUpdate)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(385, 385, 385)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -144,7 +145,9 @@ public class TableLansia extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonDelete))
+                        .addComponent(jButtonDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonKeluar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
@@ -163,7 +166,6 @@ public class TableLansia extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     protected void loadTable() {
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"id", "nama", "usia", "gula_darah", "td_Diastolik", "td_Sistolik", "catatan"}, 0);
@@ -187,7 +189,6 @@ public class TableLansia extends javax.swing.JFrame {
             e.printStackTrace(); // Log the error
         }
     }
-    
     private void jButtonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahActionPerformed
         // TODO add your handling code here:
         try {
@@ -257,6 +258,12 @@ public class TableLansia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButtonKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKeluarActionPerformed
+        Dashboard dashboard = new Dashboard();
+        dashboard.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonKeluarActionPerformed
+
     private void clearSelectedData() {
     selectedId = -1;
     selectedNama = "";
@@ -303,6 +310,7 @@ public class TableLansia extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonKeluar;
     private javax.swing.JButton jButtonTambah;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel1;
