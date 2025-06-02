@@ -11,6 +11,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import frame.*;
 
 public class Main extends javax.swing.JFrame {
 
@@ -159,7 +160,8 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+//                new Main().setVisible(true);
+                new TableBalita().setVisible(true);
             }
         });
     }
