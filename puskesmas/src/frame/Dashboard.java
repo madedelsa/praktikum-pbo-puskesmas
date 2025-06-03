@@ -2,13 +2,45 @@ package frame;
 
 import com.raven.main.Main;
 import javax.swing.JOptionPane;
+import util.SessionManager;
+
 
 public class Dashboard extends javax.swing.JFrame {
+    
 
     public Dashboard() {
         initComponents();
+        configureDashboardBasedOnRole();
     }
 
+    private void configureDashboardBasedOnRole() {
+        String role = SessionManager.getLoggedInRole();
+        if (role == null) {
+            // Should not happen if navigated from successful login, but good for safety
+            JOptionPane.showMessageDialog(this, "User not logged in.", "Error", JOptionPane.ERROR_MESSAGE);
+            new Main().setVisible(true); // Go back to login
+            this.dispose();
+            return;
+        }
+
+        if (role.equalsIgnoreCase("admin")) {
+            jButtonBalita.setVisible(false); // Hide Balita data for admin
+            jButtonLansia.setVisible(false); // Hide Lansia data for admin
+            jButtonManageUsers.setVisible(true); // Show Manage Users for admin
+            header.setText("Aplikasi Posyandu (Admin)");
+        } else if (role.equalsIgnoreCase("pegawai")) {
+            jButtonBalita.setVisible(true); // Show Balita data for pegawai
+            jButtonLansia.setVisible(true); // Show Lansia data for pegawai
+            jButtonManageUsers.setVisible(false); // Hide Manage Users for pegawai
+            header.setText("Aplikasi Posyandu (Pegawai)");
+        } else {
+            // Handle other roles or unknown roles
+            JOptionPane.showMessageDialog(this, "Unknown user role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            new Main().setVisible(true); // Go back to login
+            this.dispose();
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -23,6 +55,7 @@ public class Dashboard extends javax.swing.JFrame {
         jButtonBalita = new javax.swing.JButton();
         jButtonLansia = new javax.swing.JButton();
         jButtonKeluar = new javax.swing.JButton();
+        jButtonManageUsers = new javax.swing.JButton();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -76,6 +109,16 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jButtonManageUsers.setFont(new java.awt.Font("Palatino Linotype", 1, 20)); // NOI18N
+        jButtonManageUsers.setForeground(new java.awt.Color(120, 134, 199));
+        jButtonManageUsers.setText("Kelola Pengguna");
+        jButtonManageUsers.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonManageUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonManageUsersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -84,10 +127,11 @@ public class Dashboard extends javax.swing.JFrame {
             .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonBalita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonLansia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonKeluar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonManageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBalita, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonLansia, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(235, 235, 235))
         );
         jPanel2Layout.setVerticalGroup(
@@ -101,9 +145,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jButtonBalita)
                 .addGap(34, 34, 34)
                 .addComponent(jButtonLansia)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonManageUsers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                 .addComponent(jButtonKeluar)
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addGap(80, 80, 80))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -130,7 +176,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jButtonBalitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBalitaActionPerformed
         TableBalita tableBalita = new TableBalita();
         tableBalita.setVisible(true);
@@ -158,6 +204,12 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonKeluarActionPerformed
 
+    private void jButtonManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManageUsersActionPerformed
+        TableUser tableUser = new TableUser(); 
+        tableUser.setVisible(true); 
+        this.dispose();     
+    }//GEN-LAST:event_jButtonManageUsersActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -171,6 +223,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtonBalita;
     private javax.swing.JButton jButtonKeluar;
     private javax.swing.JButton jButtonLansia;
+    private javax.swing.JButton jButtonManageUsers;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel menu;

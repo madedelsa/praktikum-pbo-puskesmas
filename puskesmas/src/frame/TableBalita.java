@@ -196,7 +196,7 @@ public class TableBalita extends javax.swing.JFrame {
                 };
                 model.addRow(row);
             }
-            jTable1.setModel(model);
+            jTable2.setModel(model); // Changed jTable1 to jTable2
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal mengambil data dari database: " + e.getMessage());
             e.printStackTrace(); // Log the error
